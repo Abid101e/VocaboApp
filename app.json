@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "VocaboApp",
-    "slug": "VocaboApp",
+    "slug": "vocaboapp",
     "scheme": "vocaboapp",
     "version": "1.0.0",
     "orientation": "portrait",
