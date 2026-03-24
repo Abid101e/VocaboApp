@@ -13,8 +13,8 @@ const Stack = createNativeStackNavigator<AppStackParamList>();
 
 // Stack navigator for authenticated users
 const PostsNavigator = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="PostList" component={PostListScreen} options={{ title: 'Posts' }} />
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="PostList" component={PostListScreen} />
   </Stack.Navigator>
 );
 

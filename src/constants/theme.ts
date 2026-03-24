@@ -1,4 +1,5 @@
 export const colors = {
+  // Auth screens
   primary: '#3D35CC',
   background: '#F2F2F7',
   surface: '#FFFFFF',
@@ -8,6 +9,14 @@ export const colors = {
   border: '#E5E5EA',
   error: '#FF3B30',
   link: '#3D35CC',
+
+  // Posts screens
+  indigo: '#4F46E5',
+  postBackground: '#F9FAFB',
+  postText: '#111827',
+  postTextSecondary: '#6B7280',
+  postBorder: '#E5E7EB',
+  postCard: '#FFFFFF',
 };
 
 export const spacing = {
