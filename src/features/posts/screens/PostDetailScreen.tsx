@@ -247,11 +247,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.postTextSecondary,
   },
-  badgeText: {
-    color: '#fff',
-    fontSize: 11,
-    fontWeight: '600',
-  },
   title: {
     fontSize: 18,
     fontWeight: '700',

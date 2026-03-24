@@ -8,6 +8,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { AuthStackParamList } from '../../../navigation/AuthNavigator';
@@ -60,17 +61,17 @@ const LoginScreen = ({ navigation }: Props) => {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
-            rightLabel={
-              <TouchableOpacity>
-                <Text style={styles.forgotText}>Forgot password?</Text>
-              </TouchableOpacity>
-            }
           />
 
           {/* Firebase error */}
           {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
-          <Button label="Sign In" onPress={() => login(email, password)} loading={loading} />
+          <Button
+            label="Sign In"
+            onPress={() => login(email, password)}
+            loading={loading}
+            disabled={!email || !password}
+          />
 
           {/* Divider between email and Google sign-in */}
           <View style={styles.dividerRow}>
@@ -134,11 +135,6 @@ const styles = StyleSheet.create({
   form: {
     width: '100%',
     gap: spacing.md,
-  },
-  forgotText: {
-    fontSize: 13,
-    color: colors.primary,
-    fontWeight: '500',
   },
   errorText: {
     fontSize: 13,

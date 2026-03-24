@@ -75,6 +75,8 @@ const usePostDetail = (postId: number, userId: string) => {
 
     try {
       await addCommentService(postId, userId, trimmed);
+    } catch {
+      setCommentText(trimmed);
     } finally {
       setSubmittingComment(false);
     }
