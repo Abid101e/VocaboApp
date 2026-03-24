@@ -1,4 +1,5 @@
-import { View, Text, TextInput, StyleSheet, TextInputProps, ReactNode } from 'react-native';
+import { ReactNode } from 'react';
+import { View, Text, TextInput, StyleSheet, TextInputProps } from 'react-native';
 import { colors, spacing, radius } from '../constants/theme';
 
 interface InputProps extends TextInputProps {
@@ -6,7 +7,7 @@ interface InputProps extends TextInputProps {
   rightLabel?: ReactNode;
 }
 
-const Input = ({ label, rightLabel, ...props }: InputProps) => {
+const Input = ({ label, rightLabel, style, ...props }: InputProps) => {
   return (
     <View style={styles.container}>
       {/* Label row */}
@@ -17,7 +18,7 @@ const Input = ({ label, rightLabel, ...props }: InputProps) => {
 
       {/* Text input field */}
       <TextInput
-        style={styles.input}
+        style={[styles.input, style]}
         placeholderTextColor={colors.textMuted}
         {...props}
       />

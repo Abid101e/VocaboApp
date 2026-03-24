@@ -21,7 +21,6 @@ const Button = ({
   const isPrimary = variant === 'primary';
 
   return (
-   
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled || loading}
@@ -33,7 +32,7 @@ const Button = ({
         style,
       ]}
     >
-      {}
+      
       {loading ? (
         <ActivityIndicator color={isPrimary ? '#fff' : colors.primary} />
       ) : (
