@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Post } from '../../../types';
@@ -96,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostCard;
+export default memo(PostCard);

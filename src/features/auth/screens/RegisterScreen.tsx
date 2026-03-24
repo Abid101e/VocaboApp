@@ -91,7 +91,7 @@ const RegisterScreen = ({ navigation }: Props) => {
             label="Create Account"
             onPress={handleRegister}
             loading={loading}
-            disabled={passwordMismatch}
+            disabled={passwordMismatch || !email || !password}
           />
         </View>
 

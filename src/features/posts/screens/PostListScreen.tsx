@@ -1,13 +1,36 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useCallback } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { Post } from '../../../types';
 import { useAuth } from '../../auth/hooks/useAuth';
+import usePosts from '../hooks/usePosts';
 import PostCard from '../components/PostCard';
 import { colors, spacing } from '../../../constants/theme';
 
-
 const PostListScreen = () => {
   const { logout } = useAuth();
+  const { posts, loading, initialLoading, error, loadMore } = usePosts();
+
+  const renderItem = useCallback(({ item }: { item: Post }) => (
+    <PostCard post={item} onPress={() => {}} />
+  ), []);
+
+  if (initialLoading) return (
+    <SafeAreaView style={styles.screen}>
+      <View style={styles.centeredContainer}>
+        <ActivityIndicator size="large" color={colors.indigo} />
+      </View>
+    </SafeAreaView>
+  );
+
+  if (error && posts.length === 0) return (
+    <SafeAreaView style={styles.screen}>
+      <View style={styles.centeredContainer}>
+        <Text style={styles.messageText}>{error}</Text>
+      </View>
+    </SafeAreaView>
+  );
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -19,16 +42,19 @@ const PostListScreen = () => {
       </View>
 
       <FlatList
-        data={[]}
+        data={posts}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <PostCard post={item} onPress={() => {}} />
-        )}
+        renderItem={renderItem}
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
+        onEndReached={loadMore}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={
+          loading ? <ActivityIndicator style={styles.footer} color={colors.indigo} /> : null
+        }
         ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No posts available</Text>
+          <View style={styles.centeredContainer}>
+            <Text style={styles.messageText}>No posts available</Text>
           </View>
         }
       />
@@ -62,14 +88,17 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xl,
     flexGrow: 1,
   },
-  emptyContainer: {
+  centeredContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  emptyText: {
+  messageText: {
     fontSize: 15,
     color: colors.postTextSecondary,
+  },
+  footer: {
+    paddingVertical: spacing.md,
   },
 });
 
