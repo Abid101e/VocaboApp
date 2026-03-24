@@ -57,7 +57,11 @@ const PostListScreen = ({ navigation }: Props) => {
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
-          loading ? <ActivityIndicator style={styles.footer} color={colors.indigo} /> : null
+          loading
+            ? <ActivityIndicator style={styles.footer} color={colors.indigo} />
+            : error && posts.length > 0
+              ? <Text style={styles.footerError}>{error}</Text>
+              : null
         }
         ListEmptyComponent={
           <View style={styles.centeredContainer}>
@@ -106,6 +110,12 @@ const styles = StyleSheet.create({
   },
   footer: {
     paddingVertical: spacing.md,
+  },
+  footerError: {
+    textAlign: 'center',
+    paddingVertical: spacing.md,
+    fontSize: 13,
+    color: colors.postTextSecondary,
   },
 });
 

@@ -30,6 +30,7 @@ const usePosts = () => {
       if (!isMounted.current) return;
       if (data.length < POSTS_PER_PAGE) setHasMore(false);
       setPosts(prev => pageNumber === 1 ? data : [...prev, ...data]);
+      setPage(pageNumber);
     } catch (err: unknown) {
       if (!isMounted.current) return;
       setError(err instanceof Error ? err.message : 'Something went wrong');
@@ -48,9 +49,7 @@ const usePosts = () => {
 
   const loadMore = () => {
     if (!hasMore || isFetching.current) return;
-    const nextPage = page + 1;
-    setPage(nextPage);
-    load(nextPage);
+    load(page + 1);
   };
 
   return { posts, loading, initialLoading, error, loadMore, hasMore };
