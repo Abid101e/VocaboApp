@@ -8,6 +8,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { AuthStackParamList } from '../../../navigation/AuthNavigator';
 import { useAuth } from '../hooks/useAuth';
@@ -25,8 +26,9 @@ const LoginScreen = ({ navigation }: Props) => {
   const [password, setPassword] = useState('');
 
   return (
+    <SafeAreaView style={styles.screen}>
     <KeyboardAvoidingView
-      style={styles.screen}
+      style={styles.flex}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
@@ -90,6 +92,7 @@ const LoginScreen = ({ navigation }: Props) => {
 
       </ScrollView>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
@@ -97,6 +100,9 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  flex: {
+    flex: 1,
   },
   container: {
     flexGrow: 1,
