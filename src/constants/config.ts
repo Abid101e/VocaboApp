@@ -6,4 +6,5 @@ export const POSTS_PER_PAGE = 10;
 
 export const CACHE_KEYS = {
   postsPage: (page: number) => `cache_posts_page_${page}`,
+  postDetail: (id: number) => `cache_post_${id}`,
 };

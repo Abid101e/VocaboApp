@@ -4,25 +4,25 @@ import { ActivityIndicator, View } from 'react-native';
 import { useAuth } from '../features/auth/hooks/useAuth';
 import AuthNavigator from './AuthNavigator';
 import PostListScreen from '../features/posts/screens/PostListScreen';
+import PostDetailScreen from '../features/posts/screens/PostDetailScreen';
 
 export type AppStackParamList = {
   PostList: undefined;
+  PostDetail: { postId: number };
 };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
-// Stack navigator for authenticated users
 const PostsNavigator = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="PostList" component={PostListScreen} />
+    <Stack.Screen name="PostDetail" component={PostDetailScreen} />
   </Stack.Navigator>
 );
 
-// Root navigator — switches between auth and app based on Firebase user state
 const AppNavigator = () => {
   const { user, loading } = useAuth();
 
-  // Show spinner while Firebase resolves the initial auth state
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

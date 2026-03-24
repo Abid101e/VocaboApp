@@ -1,20 +1,27 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useCallback } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { Post } from '../../../types';
 import { useAuth } from '../../auth/hooks/useAuth';
 import usePosts from '../hooks/usePosts';
 import PostCard from '../components/PostCard';
 import { colors, spacing } from '../../../constants/theme';
+import type { AppStackParamList } from '../../../navigation/AppNavigator';
 
-const PostListScreen = () => {
+type Props = NativeStackScreenProps<AppStackParamList, 'PostList'>;
+
+const PostListScreen = ({ navigation }: Props) => {
   const { logout } = useAuth();
   const { posts, loading, initialLoading, error, loadMore } = usePosts();
 
   const renderItem = useCallback(({ item }: { item: Post }) => (
-    <PostCard post={item} onPress={() => {}} />
-  ), []);
+    <PostCard
+      post={item}
+      onPress={() => navigation.navigate('PostDetail', { postId: item.id })}
+    />
+  ), [navigation]);
 
   if (initialLoading) return (
     <SafeAreaView style={styles.screen}>
