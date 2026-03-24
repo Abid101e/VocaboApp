@@ -24,9 +24,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [, response, promptGoogleSignIn] = Google.useAuthRequest({
+  const [, response, promptAsync] = Google.useAuthRequest({
     clientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+    redirectUri: process.env.EXPO_PUBLIC_GOOGLE_REDIRECT_URI,
   });
+
+  const promptGoogleSignIn = () => promptAsync?.();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
