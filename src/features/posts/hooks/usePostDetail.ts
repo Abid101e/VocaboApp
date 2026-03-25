@@ -8,7 +8,7 @@ import {
   subscribeToComments,
 } from '../services/postService';
 
-const usePostDetail = (postId: number, userId: string) => {
+const usePostDetail = (postId: number, userId: string, userName: string) => {
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -75,10 +75,10 @@ const usePostDetail = (postId: number, userId: string) => {
     if (!trimmed) return;
 
     setCommentText('');
-    addCommentService(postId, userId, trimmed).catch(() => {
+    addCommentService(postId, userId, userName, trimmed).catch(() => {
       setCommentText(trimmed);
     });
-  }, [postId, userId, commentText]);
+  }, [postId, userId, userName, commentText]);
 
   return {
     post,

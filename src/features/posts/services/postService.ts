@@ -35,11 +35,13 @@ export const toggleLike = async (
 export const addComment = async (
   postId: number,
   userId: string,
+  userName: string,
   text: string,
 ): Promise<void> => {
   await addDoc(commentsCollection(postId), {
     postId,
     userId,
+    userName,
     text,
     createdAt: Date.now(),
   });

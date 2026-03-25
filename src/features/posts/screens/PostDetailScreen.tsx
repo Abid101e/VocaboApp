@@ -35,13 +35,17 @@ const PostDetailScreen = ({ route, navigation }: Props) => {
     setCommentText,
     toggleLike,
     submitComment,
-  } = usePostDetail(postId, user!.uid);
+  } = usePostDetail(
+    postId,
+    user!.uid,
+    user!.displayName || user!.email?.split('@')[0] || 'User',
+  );
 
   const renderComment = useCallback(
     ({ item }: { item: Comment }) => (
       <View style={styles.commentItem}>
         <Text style={styles.commentAuthor}>
-          {item.userId === user!.uid ? 'You' : `User ${item.userId.slice(0, 6)}`}
+          {item.userId === user!.uid ? 'You' : item.userName}
         </Text>
         <Text style={styles.commentBody}>{item.text}</Text>
       </View>
