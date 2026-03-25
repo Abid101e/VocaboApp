@@ -1,11 +1,12 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import * as Google from 'expo-auth-session/providers/google';
-import * as WebBrowser from 'expo-web-browser';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { auth } from '../../../services/firebase';
 import { signInWithEmail, registerWithEmail, signInWithGoogle, signOut } from '../services/authService';
 
-WebBrowser.maybeCompleteAuthSession();
+GoogleSignin.configure({
+  webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+});
 
 interface AuthContextValue {
   user: User | null;
@@ -24,13 +25,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [, response, promptAsync] = Google.useAuthRequest({
-    clientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-    redirectUri: process.env.EXPO_PUBLIC_GOOGLE_REDIRECT_URI,
-  });
-
-  const promptGoogleSignIn = () => promptAsync?.();
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
@@ -39,12 +33,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    if (response?.type === 'success') {
-      const { id_token } = response.params;
-      signInWithGoogle(id_token).catch((err: unknown) => setError(err instanceof Error ? err.message : 'Google sign-in failed'));
+  const promptGoogleSignIn = async () => {
+    setError(null);
+    try {
+      await GoogleSignin.hasPlayServices();
+      const result = await GoogleSignin.signIn();
+      const idToken = result.data?.idToken;
+      if (!idToken) throw new Error('Google sign-in failed');
+      await signInWithGoogle(idToken);
+    } catch (err: unknown) {
+      if ((err as { code?: string }).code === statusCodes.SIGN_IN_CANCELLED) return;
+      setError(err instanceof Error ? err.message : 'Google sign-in failed');
     }
-  }, [response]);
+  };
 
   const login = async (email: string, password: string) => {
     setError(null);
@@ -65,6 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
+    await GoogleSignin.signOut().catch(() => {});
     await signOut();
   };
 
@@ -74,7 +76,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     </AuthContext.Provider>
   );
 };
-
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

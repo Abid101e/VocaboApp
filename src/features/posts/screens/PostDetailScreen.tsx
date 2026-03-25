@@ -32,7 +32,6 @@ const PostDetailScreen = ({ route, navigation }: Props) => {
     isLiked,
     comments,
     commentText,
-    submittingComment,
     setCommentText,
     toggleLike,
     submitComment,
@@ -83,7 +82,7 @@ const PostDetailScreen = ({ route, navigation }: Props) => {
 
       <KeyboardAvoidingView
         style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         {/* Post body + comments list */}
         <FlatList
@@ -151,19 +150,12 @@ const PostDetailScreen = ({ route, navigation }: Props) => {
             maxLength={500}
           />
           <TouchableOpacity
-            style={[
-              styles.sendButton,
-              (!commentText.trim() || submittingComment) && styles.sendButtonDisabled,
-            ]}
+            style={[styles.sendButton, !commentText.trim() && styles.sendButtonDisabled]}
             onPress={submitComment}
-            disabled={!commentText.trim() || submittingComment}
+            disabled={!commentText.trim()}
             activeOpacity={0.8}
           >
-            {submittingComment ? (
-              <ActivityIndicator size="small" color="#fff" />
-            ) : (
-              <Ionicons name="send" size={18} color="#fff" />
-            )}
+            <Ionicons name="send" size={18} color="#fff" />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

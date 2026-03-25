@@ -16,7 +16,6 @@ const usePostDetail = (postId: number, userId: string) => {
   const [isLiked, setIsLiked] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentText, setCommentText] = useState('');
-  const [submittingComment, setSubmittingComment] = useState(false);
 
   const isTogglingLike = useRef(false);
 
@@ -71,21 +70,15 @@ const usePostDetail = (postId: number, userId: string) => {
       });
   }, [postId, userId, isLiked]);
 
-  const submitComment = useCallback(async () => {
+  const submitComment = useCallback(() => {
     const trimmed = commentText.trim();
-    if (!trimmed || submittingComment) return;
+    if (!trimmed) return;
 
-    setSubmittingComment(true);
     setCommentText('');
-
-    try {
-      await addCommentService(postId, userId, trimmed);
-    } catch {
+    addCommentService(postId, userId, trimmed).catch(() => {
       setCommentText(trimmed);
-    } finally {
-      setSubmittingComment(false);
-    }
-  }, [postId, userId, commentText, submittingComment]);
+    });
+  }, [postId, userId, commentText]);
 
   return {
     post,
@@ -95,7 +88,6 @@ const usePostDetail = (postId: number, userId: string) => {
     isLiked,
     comments,
     commentText,
-    submittingComment,
     setCommentText,
     toggleLike,
     submitComment,

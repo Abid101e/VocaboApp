@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "943368701920",
+    "project_id": "verso-4987d",
+    "storage_bucket": "verso-4987d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943368701920:android:b999929ea8cbcf677f4d85",
+        "android_client_info": {
+          "package_name": "com.emon7370.verso"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943368701920-nta5cri5ieircr96eaughdq71fhiat8a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB57hc8H7hfc5rHiM9_t-LFY0DqaMvQ6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943368701920-nta5cri5ieircr96eaughdq71fhiat8a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
