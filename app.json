@@ -16,11 +16,10 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.emon7370.verso",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#4F46E5"
       },
       "predictiveBackGestureEnabled": false
     },
@@ -29,6 +28,11 @@
     },
     "plugins": [
       "expo-web-browser"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ccf3f3cb-4f82-4b9c-9847-8f7f533c3deb"
+      }
+    }
   }
 }
