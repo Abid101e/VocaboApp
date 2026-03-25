@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Post } from '../../../types';
 import { useAuth } from '../../auth/hooks/useAuth';
 import usePosts from '../hooks/usePosts';
+import useNetwork from '../../../hooks/useNetwork';
 import PostCard from '../components/PostCard';
 import { colors, spacing } from '../../../constants/theme';
 import type { AppStackParamList } from '../../../navigation/AppNavigator';
@@ -15,6 +16,7 @@ type Props = NativeStackScreenProps<AppStackParamList, 'PostList'>;
 const PostListScreen = ({ navigation }: Props) => {
   const { logout } = useAuth();
   const { posts, loading, initialLoading, error, loadMore } = usePosts();
+  const { isConnected } = useNetwork();
 
   const renderItem = useCallback(({ item }: { item: Post }) => (
     <PostCard
@@ -48,6 +50,12 @@ const PostListScreen = ({ navigation }: Props) => {
         </TouchableOpacity>
       </View>
 
+      {!isConnected && (
+        <View style={styles.offlineBanner}>
+          <Text style={styles.offlineText}>No internet connection</Text>
+        </View>
+      )}
+
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id.toString()}
@@ -59,7 +67,7 @@ const PostListScreen = ({ navigation }: Props) => {
         ListFooterComponent={
           loading
             ? <ActivityIndicator style={styles.footer} color={colors.indigo} />
-            : error && posts.length > 0
+            : error && posts.length > 0 && isConnected
               ? <Text style={styles.footerError}>{error}</Text>
               : null
         }
@@ -110,6 +118,16 @@ const styles = StyleSheet.create({
   },
   footer: {
     paddingVertical: spacing.md,
+  },
+  offlineBanner: {
+    backgroundColor: '#1F2937',
+    paddingVertical: spacing.sm,
+    alignItems: 'center',
+  },
+  offlineText: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '500',
   },
   footerError: {
     textAlign: 'center',
