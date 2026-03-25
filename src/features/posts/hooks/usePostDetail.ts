@@ -61,9 +61,14 @@ const usePostDetail = (postId: number, userId: string) => {
     setIsLiked(!wasLiked);
     setLikeCount((prev) => (wasLiked ? prev - 1 : prev + 1));
 
-    toggleLikeService(postId, userId, wasLiked).finally(() => {
-      isTogglingLike.current = false;
-    });
+    toggleLikeService(postId, userId, wasLiked)
+      .catch(() => {
+        setIsLiked(wasLiked);
+        setLikeCount((prev) => (wasLiked ? prev + 1 : prev - 1));
+      })
+      .finally(() => {
+        isTogglingLike.current = false;
+      });
   }, [postId, userId, isLiked]);
 
   const submitComment = useCallback(async () => {

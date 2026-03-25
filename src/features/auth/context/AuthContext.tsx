@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (response?.type === 'success') {
       const { id_token } = response.params;
-      signInWithGoogle(id_token).catch((err: Error) => setError(err.message));
+      signInWithGoogle(id_token).catch((err: unknown) => setError(err instanceof Error ? err.message : 'Google sign-in failed'));
     }
   }, [response]);
 
