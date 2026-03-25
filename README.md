@@ -2,6 +2,8 @@
 
 Verso is a mobile app built with React Native and Expo. It lets users browse and read posts, like and comment on them, and sign in with email or Google. Data is fetched from the JSONPlaceholder API and social interactions (likes, comments) are stored in real time via Firebase Firestore.
 
+[Download APK](https://github.com/Abid101e/VocaboApp/releases/tag/v.1)
+
 ---
 
 ## Screenshots
